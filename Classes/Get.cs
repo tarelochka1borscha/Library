@@ -64,18 +64,10 @@ namespace KnowledgeBaseLibrary.Classes
         public static List<Tag> GetTagsList() => BaseConnecton.Tags.ToList();
 
         /// <summary>
-        /// Метод для получения проблем по названию/описанию
+        /// Метод для получения проблемы по ее идентификатору
         /// </summary>
-        /// <param name="text">Текстовое значение для сравнения</param>
-        /// <returns>Список типа Problem, содержащий записи таблицы Problem, имеющие совпадения между названием/описанием и полученным текстовым значением</returns>
-        public static List<Problem> GetProblemsByTitleDescriptionList(string text) => BaseConnecton.Problems.Where(x => x.Title.ToLower().Contains(text.ToLower()) || x.Description.ToLower().Contains(text.ToLower())).ToList();
-
-        /// <summary>
-        /// Метод для получения проблем по тэгу/названию
-        /// </summary>
-        /// <param name="text">Текстовое значение для сравнения</param>
-        /// <returns></returns>
+        /// <param name="text">Идентификатор (Id) записи</param>
+        /// <returns>Объект Problem - запись таблицы Problems, найденная по полученному Id</returns>
         public static Problem GetProblemById(Guid ProblemId) => BaseConnecton.Problems.FirstOrDefault(x => x.Id == ProblemId);
-         
     }
 }
