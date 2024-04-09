@@ -64,6 +64,12 @@ namespace KnowledgeBaseLibrary.Classes
         public static List<Tag> GetTagsList() => BaseConnecton.Tags.ToList();
 
         /// <summary>
+        /// Метод для получения всех записей таблицы TagProblems (взаимосвязь тэгов и проблем)
+        /// </summary>
+        /// <returns>Список типа TagProblem, содержащий все записи таблицы TagProblems</returns>
+        public static List<TagProblem> GetTagProblemsList() => BaseConnecton.TagProblems.ToList();
+
+        /// <summary>
         /// Метод для получения проблемы по ее идентификатору
         /// </summary>
         /// <param name="text">Идентификатор (Id) записи</param>
