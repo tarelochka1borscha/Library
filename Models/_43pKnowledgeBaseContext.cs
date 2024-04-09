@@ -67,7 +67,6 @@ public partial class _43pKnowledgeBaseContext : DbContext
 
             entity.HasOne(d => d.Problem).WithMany(p => p.Reasons)
                 .HasForeignKey(d => d.ProblemId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Reasons_ProblemID_fkey");
         });
 
@@ -87,12 +86,10 @@ public partial class _43pKnowledgeBaseContext : DbContext
 
             entity.HasOne(d => d.Answer).WithMany(p => p.Solutions)
                 .HasForeignKey(d => d.AnswerId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Solutions_AnswerID_fkey");
 
             entity.HasOne(d => d.Problem).WithMany(p => p.Solutions)
                 .HasForeignKey(d => d.ProblemId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Solutions_ProblemID_fkey");
         });
 
@@ -106,12 +103,10 @@ public partial class _43pKnowledgeBaseContext : DbContext
 
             entity.HasOne(d => d.Solution).WithMany(p => p.SolutionSteps)
                 .HasForeignKey(d => d.SolutionId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Solution_Steps_SolutionID_fkey");
 
             entity.HasOne(d => d.Step).WithMany(p => p.SolutionSteps)
                 .HasForeignKey(d => d.StepId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Solution_Steps_StepID_fkey");
         });
 
@@ -124,6 +119,7 @@ public partial class _43pKnowledgeBaseContext : DbContext
 
             entity.HasOne(d => d.Soft).WithMany(p => p.Steps)
                 .HasForeignKey(d => d.SoftId)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("Steps_SoftId_fkey");
         });
 
@@ -145,12 +141,10 @@ public partial class _43pKnowledgeBaseContext : DbContext
 
             entity.HasOne(d => d.Problem).WithMany(p => p.TagProblems)
                 .HasForeignKey(d => d.ProblemId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Tag_Problems_ProblemId_fkey");
 
             entity.HasOne(d => d.Tag).WithMany(p => p.TagProblems)
                 .HasForeignKey(d => d.TagId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Tag_Problems_TagId_fkey");
         });
 

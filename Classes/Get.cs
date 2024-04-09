@@ -72,7 +72,7 @@ namespace KnowledgeBaseLibrary.Classes
         /// <summary>
         /// Метод для получения проблемы по ее идентификатору
         /// </summary>
-        /// <param name="text">Идентификатор (Id) записи</param>
+        /// <param name="ProblemId">Идентификатор (Id) записи</param>
         /// <returns>Объект Problem - запись таблицы Problems, найденная по полученному Id</returns>
         public static Problem GetProblemById(Guid ProblemId) => BaseConnecton.Problems.FirstOrDefault(x => x.Id == ProblemId);
     }
