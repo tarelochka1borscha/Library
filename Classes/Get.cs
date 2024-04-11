@@ -14,7 +14,6 @@ namespace KnowledgeBaseLibrary.Classes
     {
         private static _43pKnowledgeBaseContext BaseConnecton = new _43pKnowledgeBaseContext();
 
-
         /// <summary>
         /// Метод для получения всех записей таблицы Answers (шаблоны ответа на проблему)
         /// </summary>
@@ -51,11 +50,27 @@ namespace KnowledgeBaseLibrary.Classes
         /// <returns>Список типа SolutionStep, содержащий все записи таблицы SolutionSteps</returns>
         public static List<SolutionStep> GetSolutionStepsList() => BaseConnecton.SolutionSteps.ToList();
 
+
         /// <summary>
         /// Метод для получения всех записей таблицы Steps (шаги решения)
         /// </summary>
         /// <returns>Список типа Step, содержащий все записи таблицы Steps</returns>
         public static List<Step> GetStepsList() => BaseConnecton.Steps.ToList();
+
+        /// <summary>
+        /// Метод для получения всех записей таблицы Steps (шаги решения), представленных в виде строки
+        /// </summary>
+        /// <returns>Список типа string, содержащий все записи таблицы Step в виде строки</returns>
+        public static List<string> GetStepsStringList()
+        {
+            List<Step> default_list = GetStepsList();
+            List<string> string_list = new List<string>();
+            foreach (Step step in default_list)
+            {
+                string_list.Add(step.Action + " " + step.Soft); //если здесь будет исключение, отпиши
+            }
+            return string_list;
+        }
 
         /// <summary>
         /// Метод для получения всех записей таблицы Tags (тэги типа проблемы)
