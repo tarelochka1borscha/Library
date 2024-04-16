@@ -74,9 +74,10 @@ namespace KnowledgeBaseLibrary.Classes
         }
 
         /// <summary>
-        /// Метод для получения всех записей таблицы Steps (шаги решения), представленных в виде строки
+        /// Метод для получения записей таблицы Steps (шаги решения), представленных в виде строки для определенного решения
         /// </summary>
-        /// <returns>Список типа string, содержащий все записи таблицы Step в виде строки</returns>
+        /// <param name="solution">Решение, для которого необходимо получить записи</param>
+        /// <returns>Список типа string, содержащий записи таблицы Step в виде строки для определенного решения</returns>
         public static List<string> GetStepsStringList(Solution solution)
         {
             List<Step> default_list = GetStepsList(solution);
