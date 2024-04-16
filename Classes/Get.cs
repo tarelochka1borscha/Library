@@ -50,20 +50,35 @@ namespace KnowledgeBaseLibrary.Classes
         /// <returns>Список типа SolutionStep, содержащий все записи таблицы SolutionSteps</returns>
         public static List<SolutionStep> GetSolutionStepsList() => BaseConnecton.SolutionSteps.ToList();
 
+        /// <summary>
+        /// Метод для получения записей таблицы SolutionSteps (связь решений и шагов) для определенного решения
+        /// </summary>
+        /// <param name="solution">Решение, для которого необходимо получить записи</param>
+        /// <returns>Список типа SolutionStep, содержащий записи таблицы SolutionSteps для определенного решения</returns>
+        public static List<SolutionStep> GetSolutionStepsList(Solution solution) => BaseConnecton.SolutionSteps.Where(x=>x.SolutionId == solution.Id).ToList();
 
         /// <summary>
-        /// Метод для получения всех записей таблицы Steps (шаги решения)
+        /// Метод для получения записей таблицы Steps (шаги решения) для определенного решения
         /// </summary>
         /// <returns>Список типа Step, содержащий все записи таблицы Steps</returns>
-        public static List<Step> GetStepsList() => BaseConnecton.Steps.ToList();
+        public static List<Step> GetStepsList(Solution solution)
+        {
+            List<Step> steps = new List<Step>();
+            List<SolutionStep> sp = GetSolutionStepsList(solution);
+            foreach (SolutionStep step in sp)
+            {
+                steps.Add(step.Step);
+            }
+            return steps;
+        }
 
         /// <summary>
         /// Метод для получения всех записей таблицы Steps (шаги решения), представленных в виде строки
         /// </summary>
         /// <returns>Список типа string, содержащий все записи таблицы Step в виде строки</returns>
-        public static List<string> GetStepsStringList()
+        public static List<string> GetStepsStringList(Solution solution)
         {
-            List<Step> default_list = GetStepsList();
+            List<Step> default_list = GetStepsList(solution);
             List<string> string_list = new List<string>();
             foreach (Step step in default_list)
             {
