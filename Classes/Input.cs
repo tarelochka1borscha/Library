@@ -48,6 +48,18 @@ namespace KnowledgeBaseLibrary.Classes
             if ((problem == null) || (tags.Count < 1)) return; //проверка на пустое значение объекта
             if ((BaseConnecton.Problems.FirstOrDefault(x => x.Title == problem.Title) != null) && (BaseConnecton.Problems.FirstOrDefault(x => x.Id == problem.Id) == null)) return; //проверка на совпадение содержимого главного поля нового объекта с существующим объектом (защита от дубликата)
 
+            if (BaseConnecton.Problems.FirstOrDefault(x => x.Id == problem.Id) != null)
+            {
+                //удаление всех старых связей проблемы и тэгов в таблице TagProblems
+                List<TagProblem> tp_delete = BaseConnecton.TagProblems.Where(x=> x.ProblemId == problem.Id).ToList();
+                Remove.DeleteTagProblem(tp_delete);
+            }
+            else
+            {
+                BaseConnecton.Problems.Add(problem);
+                BaseConnecton.SaveChanges();
+            }
+
             //создание списка связей проблемы и тэгов
             List<TagProblem> problem_tags = new List<TagProblem>();
             foreach (Tag tag in tags)
@@ -58,17 +70,6 @@ namespace KnowledgeBaseLibrary.Classes
                     ProblemId = problem.Id,
                 };
                 problem_tags.Add(tp);
-            }
-
-            if (BaseConnecton.Problems.FirstOrDefault(x => x.Id == problem.Id) != null)
-            {
-                //удаление всех старых связей проблемы и тэгов в таблице TagProblems
-                List<TagProblem> tp_delete = BaseConnecton.TagProblems.Where(x=> x.ProblemId == problem.Id).ToList();
-                Remove.DeleteTagProblem(tp_delete);
-            }
-            else
-            {
-                BaseConnecton.Problems.Add(problem);
             }
 
             foreach (TagProblem tp in problem_tags)
@@ -111,18 +112,6 @@ namespace KnowledgeBaseLibrary.Classes
         {
             //проверка на пустые значения входных данных
             if ((solution == null) || (steps.Count < 1)) return;
-            
-            //создание списка связи решения и шагов
-            List<SolutionStep> solution_steps = new List<SolutionStep>();
-            foreach (Step step in steps)
-            {
-                SolutionStep sp = new SolutionStep
-                {
-                    SolutionId = solution.Id,
-                    StepId = step.Id,
-                };
-                solution_steps.Add(sp);
-            }
 
             if (BaseConnecton.Solutions.FirstOrDefault(x=>x.Id == solution.Id) != null)
             {
@@ -138,6 +127,19 @@ namespace KnowledgeBaseLibrary.Classes
             else
             {
                 BaseConnecton.Solutions.Add(solution);
+                BaseConnecton.SaveChanges();
+            }
+
+            //создание списка связи решения и шагов
+            List<SolutionStep> solution_steps = new List<SolutionStep>();
+            foreach (Step step in steps)
+            {
+                SolutionStep sp = new SolutionStep
+                {
+                    SolutionId = solution.Id,
+                    StepId = step.Id,
+                };
+                solution_steps.Add(sp);
             }
 
             foreach (Step step in steps) BaseConnecton.Steps.Add(step);
