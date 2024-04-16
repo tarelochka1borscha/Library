@@ -68,7 +68,7 @@ namespace KnowledgeBaseLibrary.Classes
             List<SolutionStep> sp = GetSolutionStepsList(solution);
             foreach (SolutionStep step in sp)
             {
-                steps.Add(step.Step);
+                steps.Add(BaseConnecton.Steps.FirstOrDefault(x=>x.Id == step.Id));
             }
             return steps;
         }
