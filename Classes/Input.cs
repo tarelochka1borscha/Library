@@ -74,7 +74,7 @@ namespace KnowledgeBaseLibrary.Classes
 
             foreach (TagProblem tp in problem_tags)
             {
-                BaseConnecton.Add(tp);
+                BaseConnecton.TagProblems.Add(tp);
             }
             BaseConnecton.SaveChanges();
         }
