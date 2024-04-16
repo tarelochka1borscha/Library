@@ -130,6 +130,9 @@ namespace KnowledgeBaseLibrary.Classes
                 BaseConnecton.SaveChanges();
             }
 
+            foreach (Step step in steps) BaseConnecton.Steps.Add(step);
+            BaseConnecton.SaveChanges();
+
             //создание списка связи решения и шагов
             List<SolutionStep> solution_steps = new List<SolutionStep>();
             foreach (Step step in steps)
@@ -142,8 +145,6 @@ namespace KnowledgeBaseLibrary.Classes
                 solution_steps.Add(sp);
             }
 
-            foreach (Step step in steps) BaseConnecton.Steps.Add(step);
-            BaseConnecton.SaveChanges();
             foreach (SolutionStep sp in solution_steps) BaseConnecton.SolutionSteps.Add(sp);
             BaseConnecton.SaveChanges();
         }
