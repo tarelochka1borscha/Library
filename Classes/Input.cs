@@ -143,6 +143,7 @@ namespace KnowledgeBaseLibrary.Classes
             }
 
             foreach (Step step in steps) BaseConnecton.Steps.Add(step);
+            BaseConnecton.SaveChanges();
             foreach (SolutionStep sp in solution_steps) BaseConnecton.SolutionSteps.Add(sp);
             BaseConnecton.SaveChanges();
         }
