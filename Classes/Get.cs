@@ -84,7 +84,14 @@ namespace KnowledgeBaseLibrary.Classes
             List<string> string_list = new List<string>();
             foreach (Step step in default_list)
             {
-                string_list.Add(step.Action + " " + step.Soft.Title);
+                if (step.SoftId != null)
+                {
+                    string_list.Add(step.Action + " " + step.Soft.Title);
+                }
+                else
+                {
+                    string_list.Add(step.Action);
+                }
             }
             return string_list;
         }
