@@ -60,7 +60,8 @@ namespace KnowledgeBaseLibrary.Classes
         /// <summary>
         /// Метод для получения записей таблицы Steps (шаги решения) для определенного решения
         /// </summary>
-        /// <returns>Список типа Step, содержащий все записи таблицы Steps</returns>
+        /// <param name="solution">Решение, для которого необходимо получить записи</param>
+        /// <returns>Список типа Step, содержащий записи таблицы Steps для определенного решения</returns>
         public static List<Step> GetStepsList(Solution solution)
         {
             List<Step> steps = new List<Step>();
