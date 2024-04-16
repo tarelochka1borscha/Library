@@ -83,7 +83,7 @@ namespace KnowledgeBaseLibrary.Classes
             List<string> string_list = new List<string>();
             foreach (Step step in default_list)
             {
-                string_list.Add(step.Action + " " + step.Soft); //если здесь будет исключение, отпиши
+                string_list.Add(step.Action + " " + step.Soft);
             }
             return string_list;
         }
