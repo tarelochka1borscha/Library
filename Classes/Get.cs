@@ -87,7 +87,8 @@ namespace KnowledgeBaseLibrary.Classes
             {
                 if (step.SoftId.ToString().Length > 0)
                 {
-                    string_list.Add(step.Action + " " + step.Soft.Title);
+                    string soft = BaseConnecton.Softs.FirstOrDefault(x => x.Id == step.SoftId).Title;
+                    string_list.Add(step.Action + " " + soft);
                 }
                 else
                 {
