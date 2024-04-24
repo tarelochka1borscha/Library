@@ -11,6 +11,8 @@ public partial class Step
 
     public Guid? SoftId { get; set; }
 
+    public int Number { get; set; }
+
     public virtual Soft? Soft { get; set; }
 
     public virtual ICollection<SolutionStep> SolutionSteps { get; set; } = new List<SolutionStep>();
