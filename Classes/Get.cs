@@ -1,6 +1,7 @@
 ﻿using KnowledgeBaseLibrary.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -117,5 +118,29 @@ namespace KnowledgeBaseLibrary.Classes
         /// <param name="ProblemId">Идентификатор (Id) записи</param>
         /// <returns>Объект Problem - запись таблицы Problems, найденная по полученному Id</returns>
         public static Problem GetProblemById(Guid ProblemId) => BaseConnecton.Problems.FirstOrDefault(x => x.Id == ProblemId);
+
+        /// <summary>
+        /// Метод для получения списка тэгов для определенной проблемы
+        /// </summary>
+        /// <param name="problem">Решение, чей список тэгов необходимо получить</param>
+        /// <returns>Список типа Tag, содержащий тэги проблемы problem</returns>
+        public static List<Tag> GetTagsByProblem(Problem problem)
+        {
+            List<TagProblem> tg = BaseConnecton.TagProblems.Where(x=>x.ProblemId == problem.Id).ToList();
+            List<Tag> tags = new List<Tag>();
+            foreach (TagProblem tp in tg)
+            {
+                Tag tag = BaseConnecton.Tags.FirstOrDefault(x=>x.Id == tp.TagId);
+                tags.Add(tag);
+            }
+            return tags;
+        }
+
+        /// <summary>
+        /// Метод для получения шаблона ответа для решения
+        /// </summary>
+        /// <param name="solution">Решение, для которого необходимо получить шаблон ответа</param>
+        /// <returns>Шаблон ответа для решения solution</returns>
+        public static Answer GetAnswerBySolution(Solution solution) => BaseConnecton.Answers.FirstOrDefault(x=>x.Id == solution.AnswerId);
     }
 }
