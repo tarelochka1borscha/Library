@@ -142,5 +142,12 @@ namespace KnowledgeBaseLibrary.Classes
         /// <param name="solution">Решение, для которого необходимо получить шаблон ответа</param>
         /// <returns>Шаблон ответа для решения solution</returns>
         public static Answer GetAnswerBySolution(Solution solution) => BaseConnecton.Answers.FirstOrDefault(x=>x.Id == solution.AnswerId);
+
+        /// <summary>
+        /// Метод для получения решений для проблемы
+        /// </summary>
+        /// <param name="problem">Проблема, для которой необходимо получить решения</param>
+        /// <returns>Список типа Solution, содержащий решения для проблемы problem</returns>
+        public static List<Solution> GetSolutionsByProblem(Problem problem) => BaseConnecton.Solutions.Where(x=>x.ProblemId == problem.Id).ToList();
     }
 }
