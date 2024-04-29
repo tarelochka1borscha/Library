@@ -71,7 +71,7 @@ namespace KnowledgeBaseLibrary.Classes
                 Step a = (Step)BaseConnecton.Steps.FirstOrDefault(x => x.Id == step.StepId);
                 if (a != null) steps.Add(a);
             }
-            steps.OrderBy(x=>x.Number);
+            steps = steps.OrderBy(x=>x.Number).ToList();
             return steps;
         }
 
