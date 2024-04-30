@@ -46,14 +46,15 @@ namespace KnowledgeBaseLibrary.Classes
         public static void InputProblem(Problem problem, List<Tag> tags)
         {
             if ((problem == null) || (tags.Count < 1)) return; //проверка на пустое значение объекта
-            if ((BaseConnecton.Problems.FirstOrDefault(x => x.Title == problem.Title) != null) && (BaseConnecton.Problems.FirstOrDefault(x => x.Id == problem.Id) == null)) return; //проверка на совпадение содержимого главного поля нового объекта с существующим объектом (защита от дубликата)
+            if (BaseConnecton.Problems.FirstOrDefault(x => x.Id == problem.Id) == null) return; //проверка на совпадение содержимого главного поля нового объекта с существующим объектом (защита от дубликата)
 
             if (BaseConnecton.Problems.FirstOrDefault(x => x.Id == problem.Id) != null)
             {
                 //удаление всех старых связей проблемы и тэгов в таблице TagProblems
-                List<TagProblem> tp_delete = BaseConnecton.TagProblems.Where(x=> x.ProblemId == problem.Id).ToList();
+                List<TagProblem> tp_delete = BaseConnecton.TagProblems.Where(x => x.ProblemId == problem.Id).ToList();
                 Remove.DeleteTagProblem(tp_delete);
             }
+            else if (BaseConnecton.Problems.FirstOrDefault(x => x.Title == problem.Title) != null) return;
             else
             {
                 BaseConnecton.Problems.Add(problem);
@@ -127,8 +128,8 @@ namespace KnowledgeBaseLibrary.Classes
             else
             {
                 BaseConnecton.Solutions.Add(solution);
-                BaseConnecton.SaveChanges();
             }
+            BaseConnecton.SaveChanges();
 
             foreach (Step step in steps) BaseConnecton.Steps.Add(step);
             BaseConnecton.SaveChanges();
