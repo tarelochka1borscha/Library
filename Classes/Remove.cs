@@ -89,7 +89,8 @@ namespace KnowledgeBaseLibrary.Classes
             if (solutions_steps.Count < 1) return;
             foreach (SolutionStep sp in solutions_steps)
             {
-                BaseConnecton.SolutionSteps.Remove(sp);
+                SolutionStep solutionStep = sp as SolutionStep;
+                BaseConnecton.SolutionSteps.Remove(solutionStep);
             }
             BaseConnecton.SaveChanges();
         }
@@ -136,7 +137,8 @@ namespace KnowledgeBaseLibrary.Classes
             if (tags_problems.Count < 1) return;
             foreach (TagProblem tp in tags_problems)
             {
-                BaseConnecton.TagProblems.Remove(tp);
+                TagProblem tag = tp as TagProblem;
+                BaseConnecton.TagProblems.Remove(tag);
             }
             BaseConnecton.SaveChanges();
         }
