@@ -46,7 +46,6 @@ namespace KnowledgeBaseLibrary.Classes
         public static void InputProblem(Problem problem, List<Tag> tags)
         {
             if ((problem == null) || (tags.Count < 1)) return; //проверка на пустое значение объекта
-            if (BaseConnecton.Problems.FirstOrDefault(x => x.Id == problem.Id) == null) return; //проверка на совпадение содержимого главного поля нового объекта с существующим объектом (защита от дубликата)
 
             if (BaseConnecton.Problems.FirstOrDefault(x => x.Id == problem.Id) != null)
             {
@@ -54,7 +53,7 @@ namespace KnowledgeBaseLibrary.Classes
                 List<TagProblem> tp_delete = BaseConnecton.TagProblems.Where(x => x.ProblemId == problem.Id).ToList();
                 Remove.DeleteTagProblem(tp_delete);
             }
-            else if (BaseConnecton.Problems.FirstOrDefault(x => x.Title == problem.Title) != null) return;
+            else if (BaseConnecton.Problems.FirstOrDefault(x => x.Title == problem.Title) != null) return; //избежание дубликата
             else
             {
                 BaseConnecton.Problems.Add(problem);
