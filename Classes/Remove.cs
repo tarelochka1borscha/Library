@@ -77,7 +77,12 @@ namespace KnowledgeBaseLibrary.Classes
             {
                 Solution solution = s;
                 List<SolutionStep> solutionSteps = BaseConnecton.SolutionSteps.Where(x => x.SolutionId == solution.Id).ToList();
-                List<Step> steps = solutionSteps.Select(x => x.Step).ToList();
+                List<Step> steps = new();
+                foreach (SolutionStep ss in solutionSteps)
+                {
+                    Step step = BaseConnecton.Steps.FirstOrDefault(x=>x.Id == ss.StepId);
+                    steps.Add(step);
+                }
                 DeleteSteps(steps);
                 BaseConnecton.Solutions.Remove(solution);
             }
