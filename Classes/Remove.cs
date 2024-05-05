@@ -1,9 +1,4 @@
 ﻿using KnowledgeBaseLibrary.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KnowledgeBaseLibrary.Classes
 {
@@ -61,11 +56,31 @@ namespace KnowledgeBaseLibrary.Classes
         /// <summary>
         /// Метод для удаления записи в таблицы Solutions (решение)
         /// </summary>
-        /// <param name="soft">Запись для удаления</param>
+        /// <param name="solution">Запись для удаления</param>
         public static void DeleteSolution(Solution solution)
         {
             if (solution == null) return;
             BaseConnecton.Solutions.Remove(solution);
+            BaseConnecton.SaveChanges();
+        }
+
+        /// <summary>
+        /// Метод для удаления всех решений из таблицы Solutions для проблемы problem
+        /// </summary>
+        /// <param name="problem">Проблема, решения которой необходимо удалить</param>
+        public static void DeleteSolutionsForProblem(Problem problem)
+        {
+            if (problem == null) return;
+            List<Solution> solutions = BaseConnecton.Solutions.Where(x => x.ProblemId == problem.Id).ToList();
+            if (solutions.Count < 1) return;
+            foreach (Solution s in solutions)
+            {
+                Solution solution = s;
+                List<SolutionStep> solutionSteps = BaseConnecton.SolutionSteps.Where(x => x.SolutionId == solution.Id).ToList();
+                List<Step> steps = solutionSteps.Select(x => x.Step).ToList();
+                DeleteSteps(steps);
+                BaseConnecton.Solutions.Remove(solution);
+            }
             BaseConnecton.SaveChanges();
         }
 
@@ -103,6 +118,17 @@ namespace KnowledgeBaseLibrary.Classes
         {
             if (step == null) return;
             BaseConnecton.Steps.Remove(step);
+            BaseConnecton.SaveChanges();
+        }
+
+        /// <summary>
+        /// Метод для удаления записей в таблице Steps (шаги)
+        /// </summary>
+        /// <param name="steps">Список шагов для удаления</param>
+        public static void DeleteSteps(List<Step> steps)
+        {
+            if (steps.Count < 1) return;
+            foreach (Step step in steps) BaseConnecton.Steps.Remove(step);
             BaseConnecton.SaveChanges();
         }
 

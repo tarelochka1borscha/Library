@@ -115,31 +115,17 @@ namespace KnowledgeBaseLibrary.Classes
         }
 
         /// <summary>
-        /// Метод для добавления/изменения таблицы решений, включая основные связанные с ней таблицы (Solutions, SolutionSteps, Steps, TagProblems)
+        /// Метод для добавления/перезаписи таблицы решений, включая основные связанные с ней таблицы (Solutions, SolutionSteps, Steps, TagProblems)
         /// </summary>
+        /// /// <param name="problem">Список шагов</param>
         /// <param name="solution">Объект решения</param>
         /// <param name="steps">Список шагов</param>
-        public static void InputSolution(Solution solution, List<Step> steps)
+        public static void InputSolution(Problem problem, Solution solution, List<Step> steps)
         {
             //проверка на пустые значения входных данных
             if ((solution == null) || (steps.Count < 1)) return;
 
-            if (BaseConnecton.Solutions.FirstOrDefault(x=>x.Id == solution.Id) != null)
-            {
-                //удаление всех связей шагов и решения solution во избежания нарушения порядка последовательности, а так же "мусора" в таблице Steps
-                List<SolutionStep> sp_delete = BaseConnecton.SolutionSteps.Where(x => x.SolutionId == solution.Id).ToList();
-                List<Step> steps_delete = sp_delete.Select(x => x.Step).ToList();
-                Remove.DeleteSolutionStep(sp_delete);
-                foreach (Step s in steps_delete)
-                {
-                    Remove.DeleteStep(s);
-                }
-            }
-            else
-            {
-                BaseConnecton.Solutions.Add(solution);
-                BaseConnecton.SaveChanges();
-            }
+            if (BaseConnecton.Solutions.FirstOrDefault(x=>x.ProblemId == problem.Id) != null) Remove.DeleteSolutionsForProblem(problem); //удаление всех решений
 
             foreach (Step step in steps) BaseConnecton.Steps.Add(step);
             BaseConnecton.SaveChanges();
