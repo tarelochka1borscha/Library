@@ -115,7 +115,7 @@ namespace KnowledgeBaseLibrary.Classes
         }
 
         /// <summary>
-        /// Метод для добавления/перезаписи таблицы решений, включая основные связанные с ней таблицы (Solutions, SolutionSteps, Steps, TagProblems)
+        /// Метод для добавления решений, включая основные связанные с ней таблицы (Solutions, SolutionSteps, Steps, TagProblems)
         /// </summary>
         /// /// <param name="problem">Список шагов</param>
         /// <param name="solution">Объект решения</param>
@@ -124,8 +124,6 @@ namespace KnowledgeBaseLibrary.Classes
         {
             //проверка на пустые значения входных данных
             if ((solution == null) || (steps.Count < 1)) return;
-
-            if (BaseConnecton.Solutions.FirstOrDefault(x=>x.ProblemId == problem.Id) != null) Remove.DeleteSolutionsForProblem(problem); //удаление всех решений
 
             foreach (Step step in steps) BaseConnecton.Steps.Add(step);
             BaseConnecton.SaveChanges();
