@@ -125,6 +125,7 @@ namespace KnowledgeBaseLibrary.Classes
             if ((solution == null) || (steps.Count < 1)) return;
 
             BaseConnecton.Solutions.Add(solution);
+            BaseConnecton.SaveChanges();
 
             foreach (Step step in steps) BaseConnecton.Steps.Add(step);
             BaseConnecton.SaveChanges();
