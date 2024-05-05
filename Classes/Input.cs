@@ -117,10 +117,9 @@ namespace KnowledgeBaseLibrary.Classes
         /// <summary>
         /// Метод для добавления решений, включая основные связанные с ней таблицы (Solutions, SolutionSteps, Steps, TagProblems)
         /// </summary>
-        /// /// <param name="problem">Список шагов</param>
         /// <param name="solution">Объект решения</param>
         /// <param name="steps">Список шагов</param>
-        public static void InputSolution(Problem problem, Solution solution, List<Step> steps)
+        public static void InputSolution(Solution solution, List<Step> steps)
         {
             //проверка на пустые значения входных данных
             if ((solution == null) || (steps.Count < 1)) return;
