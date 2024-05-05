@@ -35,6 +35,12 @@ namespace KnowledgeBaseLibrary.Classes
             if (problem == null) return; //проверка на пустое значение объекта
             if ((BaseConnecton.Problems.FirstOrDefault(x => x.Title == problem.Title) != null) && (BaseConnecton.Problems.FirstOrDefault(x=>x.Id == problem.Id) == null)) return; //проверка на совпадение содержимого главного поля нового объекта с существующим объектом (защита от дубликата)
             if (BaseConnecton.Problems.FirstOrDefault(x => x.Id == problem.Id) == null) BaseConnecton.Problems.Add(problem);
+            else
+            {
+                Problem problem1 = BaseConnecton.Problems.FirstOrDefault(x => x.Id == problem.Id);
+                problem1.Title = problem.Title;
+                problem1.Description = problem.Description;
+            }
             BaseConnecton.SaveChanges();
         }
 
@@ -49,6 +55,10 @@ namespace KnowledgeBaseLibrary.Classes
 
             if (BaseConnecton.Problems.FirstOrDefault(x => x.Id == problem.Id) != null)
             {
+                Problem problem1 = BaseConnecton.Problems.FirstOrDefault(x => x.Id == problem.Id);
+                problem1.Title = problem.Title;
+                problem1.Description = problem.Description;
+                BaseConnecton.SaveChanges();
                 //удаление всех старых связей проблемы и тэгов в таблице TagProblems
                 List<TagProblem> tp_delete = BaseConnecton.TagProblems.Where(x => x.ProblemId == problem.Id).ToList();
                 Remove.DeleteTagProblem(tp_delete);
