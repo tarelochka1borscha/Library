@@ -118,7 +118,8 @@ namespace KnowledgeBaseLibrary.Classes
             {
                 //удаление всех связей шагов и решения solution во избежания нарушения порядка последовательности, а так же "мусора" в таблице Steps
                 List<SolutionStep> sp_delete = BaseConnecton.SolutionSteps.Where(x => x.SolutionId == solution.Id).ToList();
-                List<Step> steps_delete = [.. sp_delete.Select(x => x.Step)];
+                List<Step> steps_delete = sp_delete.Select(x => x.Step).ToList();
+                //List<Step> steps_delete = [.. sp_delete.Select(x => x.Step)];
                 Remove.DeleteSolutionStep(sp_delete);
                 foreach (Step s in steps_delete)
                 {
@@ -128,8 +129,8 @@ namespace KnowledgeBaseLibrary.Classes
             else
             {
                 BaseConnecton.Solutions.Add(solution);
+                BaseConnecton.SaveChanges();
             }
-            BaseConnecton.SaveChanges();
 
             foreach (Step step in steps) BaseConnecton.Steps.Add(step);
             BaseConnecton.SaveChanges();
