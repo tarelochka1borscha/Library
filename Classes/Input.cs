@@ -12,8 +12,6 @@ namespace KnowledgeBaseLibrary.Classes
     /// </summary>
     public class Input
     {
-        private static _43pKnowledgeBaseContext BaseConnecton = new _43pKnowledgeBaseContext();
-
         /// <summary>
         /// Метод для добавления/изменения записи в таблице Answers (ответы)
         /// </summary>
@@ -21,9 +19,9 @@ namespace KnowledgeBaseLibrary.Classes
         public static void InputAnwer(Answer answer)
         {
             if (answer == null) return; //проверка на пустое значение объекта
-            if ((BaseConnecton.Answers.FirstOrDefault(x => x.Answer1 == answer.Answer1) != null) && (BaseConnecton.Answers.FirstOrDefault(x => x.Id == answer.Id) == null)) return; //проверка на совпадение содержимого главного поля нового объекта с существующим объектом (защита от дубликата)
-            if (BaseConnecton.Answers.FirstOrDefault(x => x.Id == answer.Id) == null) BaseConnecton.Answers.Add(answer);
-            BaseConnecton.SaveChanges();
+            if ((DBContext.BaseConnecton.Answers.FirstOrDefault(x => x.Answer1 == answer.Answer1) != null) && (DBContext.BaseConnecton.Answers.FirstOrDefault(x => x.Id == answer.Id) == null)) return; //проверка на совпадение содержимого главного поля нового объекта с существующим объектом (защита от дубликата)
+            if (DBContext.BaseConnecton.Answers.FirstOrDefault(x => x.Id == answer.Id) == null) DBContext.BaseConnecton.Answers.Add(answer);
+            DBContext.BaseConnecton.SaveChanges();
         }
 
         /// <summary>
@@ -33,15 +31,15 @@ namespace KnowledgeBaseLibrary.Classes
         public static void InputProblem(Problem problem)
         {
             if (problem == null) return; //проверка на пустое значение объекта
-            if ((BaseConnecton.Problems.FirstOrDefault(x => x.Title == problem.Title) != null) && (BaseConnecton.Problems.FirstOrDefault(x=>x.Id == problem.Id) == null)) return; //проверка на совпадение содержимого главного поля нового объекта с существующим объектом (защита от дубликата)
-            if (BaseConnecton.Problems.FirstOrDefault(x => x.Id == problem.Id) == null) BaseConnecton.Problems.Add(problem);
+            if ((DBContext.BaseConnecton.Problems.FirstOrDefault(x => x.Title == problem.Title) != null) && (DBContext.BaseConnecton.Problems.FirstOrDefault(x=>x.Id == problem.Id) == null)) return; //проверка на совпадение содержимого главного поля нового объекта с существующим объектом (защита от дубликата)
+            if (DBContext.BaseConnecton.Problems.FirstOrDefault(x => x.Id == problem.Id) == null) DBContext.BaseConnecton.Problems.Add(problem);
             else
             {
-                Problem problem1 = BaseConnecton.Problems.FirstOrDefault(x => x.Id == problem.Id);
+                Problem problem1 = DBContext.BaseConnecton.Problems.FirstOrDefault(x => x.Id == problem.Id);
                 problem1.Title = problem.Title;
                 problem1.Description = problem.Description;
             }
-            BaseConnecton.SaveChanges();
+            DBContext.BaseConnecton.SaveChanges();
         }
 
         /// <summary>
@@ -53,21 +51,21 @@ namespace KnowledgeBaseLibrary.Classes
         {
             if ((problem == null) || (tags.Count < 1)) return; //проверка на пустое значение объекта
 
-            if (BaseConnecton.Problems.FirstOrDefault(x => x.Id == problem.Id) != null)
+            if (DBContext.BaseConnecton.Problems.FirstOrDefault(x => x.Id == problem.Id) != null)
             {
-                Problem problem1 = BaseConnecton.Problems.FirstOrDefault(x => x.Id == problem.Id);
+                Problem problem1 = DBContext.BaseConnecton.Problems.FirstOrDefault(x => x.Id == problem.Id);
                 problem1.Title = problem.Title;
                 problem1.Description = problem.Description;
-                BaseConnecton.SaveChanges();
+                DBContext.BaseConnecton.SaveChanges();
                 //удаление всех старых связей проблемы и тэгов в таблице TagProblems
-                List<TagProblem> tp_delete = BaseConnecton.TagProblems.Where(x => x.ProblemId == problem.Id).ToList();
+                List<TagProblem> tp_delete = DBContext.BaseConnecton.TagProblems.Where(x => x.ProblemId == problem.Id).ToList();
                 Remove.DeleteTagProblem(tp_delete);
             }
-            else if (BaseConnecton.Problems.FirstOrDefault(x => x.Title == problem.Title) != null) return; //избежание дубликата
+            else if (DBContext.BaseConnecton.Problems.FirstOrDefault(x => x.Title == problem.Title) != null) return; //избежание дубликата
             else
             {
-                BaseConnecton.Problems.Add(problem);
-                BaseConnecton.SaveChanges();
+                DBContext.BaseConnecton.Problems.Add(problem);
+                DBContext.BaseConnecton.SaveChanges();
             }
 
             //создание списка связей проблемы и тэгов
@@ -85,8 +83,8 @@ namespace KnowledgeBaseLibrary.Classes
             foreach (TagProblem tp in problem_tags)
             {
                 TagProblem tagProblem = tp as TagProblem;
-                BaseConnecton.TagProblems.Add(tagProblem);
-                BaseConnecton.SaveChanges();
+                DBContext.BaseConnecton.TagProblems.Add(tagProblem);
+                DBContext.BaseConnecton.SaveChanges();
             }
         }
 
@@ -97,9 +95,9 @@ namespace KnowledgeBaseLibrary.Classes
         public static void InputReason(Reason reason)
         {
             if (reason == null) return; //проверка на пустое значение объекта
-            if ((BaseConnecton.Reasons.FirstOrDefault(x => x.Description == reason.Description) != null) && (BaseConnecton.Reasons.FirstOrDefault(x => x.Id == reason.Id) == null)) return; //проверка на совпадение содержимого главного поля нового объекта с существующим объектом (защита от дубликата)
-            if (BaseConnecton.Reasons.FirstOrDefault(x => x.Id == reason.Id) == null) BaseConnecton.Reasons.Add(reason);
-            BaseConnecton.SaveChanges();
+            if ((DBContext.BaseConnecton.Reasons.FirstOrDefault(x => x.Description == reason.Description) != null) && (DBContext.BaseConnecton.Reasons.FirstOrDefault(x => x.Id == reason.Id) == null)) return; //проверка на совпадение содержимого главного поля нового объекта с существующим объектом (защита от дубликата)
+            if (DBContext.BaseConnecton.Reasons.FirstOrDefault(x => x.Id == reason.Id) == null) DBContext.BaseConnecton.Reasons.Add(reason);
+            DBContext.BaseConnecton.SaveChanges();
         }
 
         /// <summary>
@@ -109,9 +107,9 @@ namespace KnowledgeBaseLibrary.Classes
         public static void InputSoft(Soft soft)
         {
             if (soft == null) return; //проверка на пустое значение объекта
-            if ((BaseConnecton.Softs.FirstOrDefault(x => x.Title == soft.Title) != null) && (BaseConnecton.Softs.FirstOrDefault(x => x.Id == soft.Id) == null)) return; //проверка на совпадение содержимого главного поля нового объекта с существующим объектом (защита от дубликата)
-            if (BaseConnecton.Softs.FirstOrDefault(x => x.Id == soft.Id) == null) BaseConnecton.Softs.Add(soft);
-            BaseConnecton.SaveChanges();
+            if ((DBContext.BaseConnecton.Softs.FirstOrDefault(x => x.Title == soft.Title) != null) && (DBContext.BaseConnecton.Softs.FirstOrDefault(x => x.Id == soft.Id) == null)) return; //проверка на совпадение содержимого главного поля нового объекта с существующим объектом (защита от дубликата)
+            if (DBContext.BaseConnecton.Softs.FirstOrDefault(x => x.Id == soft.Id) == null) DBContext.BaseConnecton.Softs.Add(soft);
+            DBContext.BaseConnecton.SaveChanges();
         }
 
         /// <summary>
@@ -124,11 +122,11 @@ namespace KnowledgeBaseLibrary.Classes
             //проверка на пустые значения входных данных
             if ((solution == null) || (steps.Count < 1)) return;
 
-            BaseConnecton.Solutions.Add(solution);
-            BaseConnecton.SaveChanges();
+            DBContext.BaseConnecton.Solutions.Add(solution);
+            DBContext.BaseConnecton.SaveChanges();
 
-            foreach (Step step in steps) BaseConnecton.Steps.Add(step);
-            BaseConnecton.SaveChanges();
+            foreach (Step step in steps) DBContext.BaseConnecton.Steps.Add(step);
+            DBContext.BaseConnecton.SaveChanges();
 
             //создание списка связи решения и шагов
             List<SolutionStep> solution_steps = new List<SolutionStep>();
@@ -144,8 +142,8 @@ namespace KnowledgeBaseLibrary.Classes
 
             foreach (SolutionStep sp in solution_steps)
             {
-                BaseConnecton.SolutionSteps.Add(sp);
-                BaseConnecton.SaveChanges();
+                DBContext.BaseConnecton.SolutionSteps.Add(sp);
+                DBContext.BaseConnecton.SaveChanges();
             }
         }
 
@@ -156,9 +154,9 @@ namespace KnowledgeBaseLibrary.Classes
         public static void InputTag(Tag tag)
         {
             if (tag == null) return; //проверка на пустое значение объекта
-            if ((BaseConnecton.Tags.FirstOrDefault(x => x.Title == tag.Title) != null) && (BaseConnecton.Tags.FirstOrDefault(x => x.Id == tag.Id) == null)) return; //проверка на совпадение содержимого главного поля нового объекта с существующим объектом (защита от дубликата)
-            if (BaseConnecton.Tags.FirstOrDefault(x=> x.Id == tag.Id) == null) BaseConnecton.Tags.Add(tag);
-            BaseConnecton.SaveChanges();
+            if ((DBContext.BaseConnecton.Tags.FirstOrDefault(x => x.Title == tag.Title) != null) && (DBContext.BaseConnecton.Tags.FirstOrDefault(x => x.Id == tag.Id) == null)) return; //проверка на совпадение содержимого главного поля нового объекта с существующим объектом (защита от дубликата)
+            if (DBContext.BaseConnecton.Tags.FirstOrDefault(x=> x.Id == tag.Id) == null) DBContext.BaseConnecton.Tags.Add(tag);
+            DBContext.BaseConnecton.SaveChanges();
         }
     }
 }

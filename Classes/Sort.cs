@@ -12,7 +12,6 @@ namespace KnowledgeBaseLibrary.Classes
     /// </summary>
     public class Sort
     {
-        private static _43pKnowledgeBaseContext BaseConnecton = new _43pKnowledgeBaseContext();
 
         /// <summary>
         /// Метод для получения проблем по названию/описанию

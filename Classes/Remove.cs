@@ -7,7 +7,7 @@ namespace KnowledgeBaseLibrary.Classes
     /// </summary>
     public class Remove
     {
-        private static _43pKnowledgeBaseContext BaseConnecton = new _43pKnowledgeBaseContext();
+        //private static _43pKnowledgeBaseContext BaseConnecton = new _43pKnowledgeBaseContext();
 
         /// <summary>
         /// Метод для удаления записи в таблицы Answers (ответы)
@@ -16,8 +16,8 @@ namespace KnowledgeBaseLibrary.Classes
         public static void DeleteAnwer(Answer answer)
         {
             if (answer == null) return;
-            BaseConnecton.Answers.Remove(answer);
-            BaseConnecton.SaveChanges();
+            DBContext.BaseConnecton.Answers.Remove(answer);
+            DBContext.BaseConnecton.SaveChanges();
         }
 
         /// <summary>
@@ -27,8 +27,8 @@ namespace KnowledgeBaseLibrary.Classes
         public static void DeleteProblem(Problem problem)
         {
             if (problem == null) return;
-            BaseConnecton.Problems.Remove(problem);
-            BaseConnecton.SaveChanges();
+            DBContext.BaseConnecton.Problems.Remove(problem);
+            DBContext.BaseConnecton.SaveChanges();
         }
 
         /// <summary>
@@ -38,8 +38,8 @@ namespace KnowledgeBaseLibrary.Classes
         public static void DeleteReason(Reason reason)
         {
             if (reason == null) return;
-            BaseConnecton.Reasons.Remove(reason);
-            BaseConnecton.SaveChanges();
+            DBContext.BaseConnecton.Reasons.Remove(reason);
+            DBContext.BaseConnecton.SaveChanges();
         }
 
         /// <summary>
@@ -49,8 +49,8 @@ namespace KnowledgeBaseLibrary.Classes
         public static void DeleteSoft(Soft soft)
         {
             if (soft == null) return;
-            BaseConnecton.Softs.Remove(soft);
-            BaseConnecton.SaveChanges();
+            DBContext.BaseConnecton.Softs.Remove(soft);
+            DBContext.BaseConnecton.SaveChanges();
         }
 
         /// <summary>
@@ -60,8 +60,8 @@ namespace KnowledgeBaseLibrary.Classes
         public static void DeleteSolution(Solution solution)
         {
             if (solution == null) return;
-            BaseConnecton.Solutions.Remove(solution);
-            BaseConnecton.SaveChanges();
+            DBContext.BaseConnecton.Solutions.Remove(solution);
+            DBContext.BaseConnecton.SaveChanges();
         }
 
         /// <summary>
@@ -71,22 +71,22 @@ namespace KnowledgeBaseLibrary.Classes
         public static void DeleteSolutionsForProblem(Problem problem)
         {
             if (problem == null) return;
-            List<Solution> solutions = BaseConnecton.Solutions.Where(x => x.ProblemId == problem.Id).ToList();
+            List<Solution> solutions = DBContext.BaseConnecton.Solutions.Where(x => x.ProblemId == problem.Id).ToList();
             if (solutions.Count < 1) return;
             foreach (Solution s in solutions)
             {
                 Solution solution = s;
-                List<SolutionStep> solutionSteps = BaseConnecton.SolutionSteps.Where(x => x.SolutionId == solution.Id).ToList();
+                List<SolutionStep> solutionSteps = DBContext.BaseConnecton.SolutionSteps.Where(x => x.SolutionId == solution.Id).ToList();
                 List<Step> steps = new();
                 foreach (SolutionStep ss in solutionSteps)
                 {
-                    Step step = BaseConnecton.Steps.FirstOrDefault(x=>x.Id == ss.StepId);
+                    Step step = DBContext.BaseConnecton.Steps.FirstOrDefault(x=>x.Id == ss.StepId);
                     steps.Add(step);
                 }
                 DeleteSteps(steps);
-                BaseConnecton.Solutions.Remove(solution);
+                DBContext.BaseConnecton.Solutions.Remove(solution);
             }
-            BaseConnecton.SaveChanges();
+            DBContext.BaseConnecton.SaveChanges();
         }
 
         /// <summary>
@@ -96,8 +96,8 @@ namespace KnowledgeBaseLibrary.Classes
         public static void DeleteSolutionStep(SolutionStep solution_step)
         {
             if (solution_step == null) return;
-            BaseConnecton.SolutionSteps.Remove(solution_step);
-            BaseConnecton.SaveChanges();
+            DBContext.BaseConnecton.SolutionSteps.Remove(solution_step);
+            DBContext.BaseConnecton.SaveChanges();
         }
 
         /// <summary>
@@ -110,9 +110,9 @@ namespace KnowledgeBaseLibrary.Classes
             foreach (SolutionStep sp in solutions_steps)
             {
                 SolutionStep solutionStep = sp as SolutionStep;
-                BaseConnecton.SolutionSteps.Remove(solutionStep);
+                DBContext.BaseConnecton.SolutionSteps.Remove(solutionStep);
             }
-            BaseConnecton.SaveChanges();
+            DBContext.BaseConnecton.SaveChanges();
         }
 
         /// <summary>
@@ -122,8 +122,8 @@ namespace KnowledgeBaseLibrary.Classes
         public static void DeleteStep(Step step)
         {
             if (step == null) return;
-            BaseConnecton.Steps.Remove(step);
-            BaseConnecton.SaveChanges();
+            DBContext.BaseConnecton.Steps.Remove(step);
+            DBContext.BaseConnecton.SaveChanges();
         }
 
         /// <summary>
@@ -133,8 +133,8 @@ namespace KnowledgeBaseLibrary.Classes
         public static void DeleteSteps(List<Step> steps)
         {
             if (steps.Count < 1) return;
-            foreach (Step step in steps) BaseConnecton.Steps.Remove(step);
-            BaseConnecton.SaveChanges();
+            foreach (Step step in steps) DBContext.BaseConnecton.Steps.Remove(step);
+            DBContext.BaseConnecton.SaveChanges();
         }
 
         /// <summary>
@@ -144,8 +144,8 @@ namespace KnowledgeBaseLibrary.Classes
         public static void DeleteTag(Tag tag)
         {
             if (tag == null) return;
-            BaseConnecton.Tags.Remove(tag);
-            BaseConnecton.SaveChanges();
+            DBContext.BaseConnecton.Tags.Remove(tag);
+            DBContext.BaseConnecton.SaveChanges();
         }
 
         /// <summary>
@@ -155,8 +155,8 @@ namespace KnowledgeBaseLibrary.Classes
         public static void DeleteTagProblem(TagProblem tag_problem)
         {
             if (tag_problem == null) return;
-            BaseConnecton.TagProblems.Remove(tag_problem);
-            BaseConnecton.SaveChanges();
+            DBContext.BaseConnecton.TagProblems.Remove(tag_problem);
+            DBContext.BaseConnecton.SaveChanges();
         }
 
         /// <summary>
@@ -169,9 +169,9 @@ namespace KnowledgeBaseLibrary.Classes
             foreach (TagProblem tp in tags_problems)
             {
                 TagProblem tag = tp as TagProblem;
-                BaseConnecton.TagProblems.Remove(tag);
+                DBContext.BaseConnecton.TagProblems.Remove(tag);
             }
-            BaseConnecton.SaveChanges();
+            DBContext.BaseConnecton.SaveChanges();
         }
     }
 }
