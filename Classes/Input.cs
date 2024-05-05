@@ -124,6 +124,8 @@ namespace KnowledgeBaseLibrary.Classes
             //проверка на пустые значения входных данных
             if ((solution == null) || (steps.Count < 1)) return;
 
+            BaseConnecton.Solutions.Add(solution);
+
             foreach (Step step in steps) BaseConnecton.Steps.Add(step);
             BaseConnecton.SaveChanges();
 
