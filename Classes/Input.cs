@@ -76,8 +76,8 @@ namespace KnowledgeBaseLibrary.Classes
             {
                 TagProblem tagProblem = tp as TagProblem;
                 BaseConnecton.TagProblems.Add(tagProblem);
+                BaseConnecton.SaveChanges();
             }
-            BaseConnecton.SaveChanges();
         }
 
         /// <summary>
@@ -119,7 +119,6 @@ namespace KnowledgeBaseLibrary.Classes
                 //удаление всех связей шагов и решения solution во избежания нарушения порядка последовательности, а так же "мусора" в таблице Steps
                 List<SolutionStep> sp_delete = BaseConnecton.SolutionSteps.Where(x => x.SolutionId == solution.Id).ToList();
                 List<Step> steps_delete = sp_delete.Select(x => x.Step).ToList();
-                //List<Step> steps_delete = [.. sp_delete.Select(x => x.Step)];
                 Remove.DeleteSolutionStep(sp_delete);
                 foreach (Step s in steps_delete)
                 {
@@ -147,8 +146,11 @@ namespace KnowledgeBaseLibrary.Classes
                 solution_steps.Add(sp);
             }
 
-            foreach (SolutionStep sp in solution_steps) BaseConnecton.SolutionSteps.Add(sp);
-            BaseConnecton.SaveChanges();
+            foreach (SolutionStep sp in solution_steps)
+            {
+                BaseConnecton.SolutionSteps.Add(sp);
+                BaseConnecton.SaveChanges();
+            }
         }
 
         /// <summary>
