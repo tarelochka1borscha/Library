@@ -156,6 +156,11 @@ namespace KnowledgeBaseLibrary.Classes
             if (tag == null) return; //проверка на пустое значение объекта
             if ((DBContext.BaseConnecton.Tags.FirstOrDefault(x => x.Title == tag.Title) != null) && (DBContext.BaseConnecton.Tags.FirstOrDefault(x => x.Id == tag.Id) == null)) return; //проверка на совпадение содержимого главного поля нового объекта с существующим объектом (защита от дубликата)
             if (DBContext.BaseConnecton.Tags.FirstOrDefault(x=> x.Id == tag.Id) == null) DBContext.BaseConnecton.Tags.Add(tag);
+            else
+            {
+                Tag tag_change = DBContext.BaseConnecton.Tags.FirstOrDefault(x=>x.Id == tag.Id);
+                tag_change.Title = tag.Title;
+            }
             DBContext.BaseConnecton.SaveChanges();
         }
     }
