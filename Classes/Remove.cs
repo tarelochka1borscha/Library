@@ -27,6 +27,19 @@ namespace KnowledgeBaseLibrary.Classes
         public static void DeleteProblem(Problem problem)
         {
             if (problem == null) return;
+            Problem problem_to_delete = DBContext.BaseConnecton.Problems.FirstOrDefault(x=>x.Id == problem.Id);
+            problem_to_delete.ProblemStatus = Get.GetForDeletionStatus().Id;
+            DBContext.BaseConnecton.Deleteds.Add(new Deleted { ProblemId = problem_to_delete.Id, DateOfDeletion = DateOnly.FromDateTime(DateTime.Now) });
+            DBContext.BaseConnecton.SaveChanges();
+        }
+
+        /// <summary>
+        /// Метод для удаления записи в таблицы Problems (проблемы)
+        /// </summary>
+        /// <param name="problem">Запись для удаления</param>
+        public static void DeleteProblemRightAway(Problem problem)
+        {
+            if (problem == null) return;
             DBContext.BaseConnecton.Problems.Remove(problem);
             DBContext.BaseConnecton.SaveChanges();
         }

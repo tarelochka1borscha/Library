@@ -11,6 +11,12 @@ public partial class Problem
 
     public string? Description { get; set; }
 
+    public Guid ProblemStatus { get; set; }
+
+    public virtual ICollection<Deleted> Deleteds { get; set; } = new List<Deleted>();
+
+    public virtual Status ProblemStatusNavigation { get; set; } = null!;
+
     public virtual ICollection<Reason> Reasons { get; set; } = new List<Reason>();
 
     public virtual ICollection<Solution> Solutions { get; set; } = new List<Solution>();

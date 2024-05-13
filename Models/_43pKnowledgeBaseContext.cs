@@ -17,6 +17,8 @@ public partial class _43pKnowledgeBaseContext : DbContext
 
     public virtual DbSet<Answer> Answers { get; set; }
 
+    public virtual DbSet<Deleted> Deleteds { get; set; }
+
     public virtual DbSet<Problem> Problems { get; set; }
 
     public virtual DbSet<Reason> Reasons { get; set; }
@@ -26,6 +28,8 @@ public partial class _43pKnowledgeBaseContext : DbContext
     public virtual DbSet<Solution> Solutions { get; set; }
 
     public virtual DbSet<SolutionStep> SolutionSteps { get; set; }
+
+    public virtual DbSet<Status> Statuses { get; set; }
 
     public virtual DbSet<Step> Steps { get; set; }
 
@@ -51,12 +55,31 @@ public partial class _43pKnowledgeBaseContext : DbContext
                 .HasColumnName("Answer");
         });
 
+        modelBuilder.Entity<Deleted>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("Deleted_pkey");
+
+            entity.ToTable("Deleted");
+
+            entity.Property(e => e.Id).HasDefaultValueSql("uuid_generate_v4()");
+
+            entity.HasOne(d => d.Problem).WithMany(p => p.Deleteds)
+                .HasForeignKey(d => d.ProblemId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Deleted_ProblemId_fkey");
+        });
+
         modelBuilder.Entity<Problem>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("Problems_pkey");
 
             entity.Property(e => e.Id).HasDefaultValueSql("uuid_generate_v4()");
             entity.Property(e => e.Title).HasColumnType("character varying");
+
+            entity.HasOne(d => d.ProblemStatusNavigation).WithMany(p => p.Problems)
+                .HasForeignKey(d => d.ProblemStatus)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Problems_ProblemStatus_fkey");
         });
 
         modelBuilder.Entity<Reason>(entity =>
@@ -108,6 +131,16 @@ public partial class _43pKnowledgeBaseContext : DbContext
             entity.HasOne(d => d.Step).WithMany(p => p.SolutionSteps)
                 .HasForeignKey(d => d.StepId)
                 .HasConstraintName("Solution_Steps_StepID_fkey");
+        });
+
+        modelBuilder.Entity<Status>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("Status_pkey");
+
+            entity.ToTable("Status");
+
+            entity.Property(e => e.Id).HasDefaultValueSql("uuid_generate_v4()");
+            entity.Property(e => e.Title).HasColumnType("character varying");
         });
 
         modelBuilder.Entity<Step>(entity =>

@@ -26,6 +26,38 @@ namespace KnowledgeBaseLibrary.Classes
         public static List<Problem> GetProblemsList() => DBContext.BaseConnecton.Problems.ToList();
 
         /// <summary>
+        /// Метод для получения актуальных записей таблицы Problems (проблемы)
+        /// </summary>
+        /// <returns>Список типа Problem, содержащий актуальные записи таблицы Problems</returns>
+        public static List<Problem> GetActualProblemsList()
+        {
+            Guid id = DBContext.BaseConnecton.Statuses.FirstOrDefault(x=>x.Title == "Актуален").Id;
+            return DBContext.BaseConnecton.Problems.Where(x=>x.ProblemStatus == id).ToList();
+        }
+
+        /// <summary>
+        /// Метод для получения записи статуса "Актуален"
+        /// </summary>
+        /// <returns>Объект типа Status - запись статуса "Актуален"</returns>
+        public static Status GetActualStatus() => DBContext.BaseConnecton.Statuses.FirstOrDefault(x => x.Title == "Актуален");
+
+        /// <summary>
+        /// Метод для получения записи статуса "На удалении"
+        /// </summary>
+        /// <returns>Объект типа Status - запись статуса "На удалении"</returns>
+        public static Status GetForDeletionStatus() => DBContext.BaseConnecton.Statuses.FirstOrDefault(x => x.Title == "На удалении");
+
+        /// <summary>
+        /// Метод для получения записей таблицы Problems (проблемы), которые находятся на удалении
+        /// </summary>
+        /// <returns>Список типа Problem, содержащий записи таблицы Problems "на удалении"</returns>
+        public static List<Problem> GetDeletedProblemsList()
+        {
+            Guid id = DBContext.BaseConnecton.Statuses.FirstOrDefault(x => x.Title != "Актуален").Id;
+            return DBContext.BaseConnecton.Problems.Where(x => x.ProblemStatus == id).ToList();
+        }
+
+        /// <summary>
         /// Метод для получения всех записей таблицы Reasons (причин возникановения проблем)
         /// </summary>
         /// <returns>Список типа Reason, содержащий все записи таблицы Reasons</returns>
