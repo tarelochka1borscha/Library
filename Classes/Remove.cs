@@ -41,6 +41,7 @@ namespace KnowledgeBaseLibrary.Classes
         {
             if (problem == null) return;
             DBContext.BaseConnecton.Problems.Remove(problem);
+            DeleteSolutionsForProblem(problem);
             DBContext.BaseConnecton.SaveChanges();
         }
 
