@@ -31,7 +31,7 @@ namespace KnowledgeBaseLibrary.Classes
         /// <returns>Список типа Problem, содержащий актуальные записи таблицы Problems</returns>
         public static List<Problem> GetActualProblemsList()
         {
-            Guid id = DBContext.BaseConnecton.Statuses.FirstOrDefault(x=>x.Title == "Актуален").Id;
+            Guid id = DBContext.BaseConnecton.Statuses.FirstOrDefault(x=>x.Title == "Активен").Id;
             return DBContext.BaseConnecton.Problems.Where(x=>x.ProblemStatus == id).ToList();
         }
 
@@ -39,7 +39,7 @@ namespace KnowledgeBaseLibrary.Classes
         /// Метод для получения записи статуса "Актуален"
         /// </summary>
         /// <returns>Объект типа Status - запись статуса "Актуален"</returns>
-        public static Status GetActualStatus() => DBContext.BaseConnecton.Statuses.FirstOrDefault(x => x.Title == "Актуален");
+        public static Status GetActualStatus() => DBContext.BaseConnecton.Statuses.FirstOrDefault(x => x.Title == "Активен");
 
         /// <summary>
         /// Метод для получения записи статуса "На удалении"
@@ -53,7 +53,7 @@ namespace KnowledgeBaseLibrary.Classes
         /// <returns>Список типа Problem, содержащий записи таблицы Problems "на удалении"</returns>
         public static List<Problem> GetDeletedProblemsList()
         {
-            Guid id = DBContext.BaseConnecton.Statuses.FirstOrDefault(x => x.Title != "Актуален").Id;
+            Guid id = DBContext.BaseConnecton.Statuses.FirstOrDefault(x => x.Title != "Активен").Id;
             return DBContext.BaseConnecton.Problems.Where(x => x.ProblemStatus == id).ToList();
         }
 
