@@ -66,6 +66,7 @@ namespace KnowledgeBaseLibrary.Classes
             else if (DBContext.BaseConnecton.Problems.FirstOrDefault(x => x.Title == problem.Title) != null) return; //избежание дубликата
             else
             {
+                problem.ProblemStatus = Get.GetActualStatus().Id;
                 DBContext.BaseConnecton.Problems.Add(problem);
                 DBContext.BaseConnecton.SaveChanges();
             }
@@ -89,6 +90,8 @@ namespace KnowledgeBaseLibrary.Classes
                 DBContext.BaseConnecton.SaveChanges();
             }
         }
+
+        
 
         /// <summary>
         /// Метод для добавления/изменения записи в таблице Reasons (причины проблем)
