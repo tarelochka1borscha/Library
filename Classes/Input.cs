@@ -38,6 +38,7 @@ namespace KnowledgeBaseLibrary.Classes
                 Problem problem1 = DBContext.BaseConnecton.Problems.FirstOrDefault(x => x.Id == problem.Id);
                 problem1.Title = problem.Title;
                 problem1.Description = problem.Description;
+                problem1.ProblemStatus = Get.GetActualStatus().Id;
             }
             DBContext.BaseConnecton.SaveChanges();
         }
@@ -56,6 +57,7 @@ namespace KnowledgeBaseLibrary.Classes
                 Problem problem1 = DBContext.BaseConnecton.Problems.FirstOrDefault(x => x.Id == problem.Id);
                 problem1.Title = problem.Title;
                 problem1.Description = problem.Description;
+                problem1.ProblemStatus = Get.GetActualStatus().Id;
                 DBContext.BaseConnecton.SaveChanges();
                 //удаление всех старых связей проблемы и тэгов в таблице TagProblems
                 List<TagProblem> tp_delete = DBContext.BaseConnecton.TagProblems.Where(x => x.ProblemId == problem.Id).ToList();
