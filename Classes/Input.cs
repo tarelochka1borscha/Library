@@ -31,7 +31,7 @@ namespace KnowledgeBaseLibrary.Classes
         public static void InputProblem(Problem problem)
         {
             if (problem == null) return; //проверка на пустое значение объекта
-            if ((DBContext.BaseConnecton.Problems.FirstOrDefault(x => x.Title == problem.Title) != null) && (DBContext.BaseConnecton.Problems.FirstOrDefault(x=>x.Id == problem.Id) == null)) return; //проверка на совпадение содержимого главного поля нового объекта с существующим объектом (защита от дубликата)
+            if ((DBContext.BaseConnecton.Problems.FirstOrDefault(x => x.Title == problem.Title) != null) && (DBContext.BaseConnecton.Problems.FirstOrDefault(x => x.Id == problem.Id) == null)) return; //проверка на совпадение содержимого главного поля нового объекта с существующим объектом (защита от дубликата)
             if (DBContext.BaseConnecton.Problems.FirstOrDefault(x => x.Id == problem.Id) == null) DBContext.BaseConnecton.Problems.Add(problem);
             else
             {
@@ -91,7 +91,20 @@ namespace KnowledgeBaseLibrary.Classes
             }
         }
 
-        
+
+        /// <summary>
+        /// Метод для восстановления проблемы на удалении
+        /// </summary>
+        /// <param name="problem">Проблема для восстановления</param>
+        public static void RestoreProblem(Problem problem)
+        {
+            if ((problem == null) || (DBContext.BaseConnecton.Problems.Find(problem) == null) || (DBContext.BaseConnecton.Deleteds.FirstOrDefault(x => x.ProblemId == problem.Id) == null)) return;
+            Problem problem1 = DBContext.BaseConnecton.Problems.FirstOrDefault(x=>x.Id == problem.Id);
+            problem1.ProblemStatus = Get.GetActualStatus().Id;
+            Deleted problem_from_delete = DBContext.BaseConnecton.Deleteds.FirstOrDefault(x=>x.ProblemId == problem1.Id);
+            DBContext.BaseConnecton.Deleteds.Remove(problem_from_delete);
+            DBContext.BaseConnecton.SaveChanges();
+        }
 
         /// <summary>
         /// Метод для добавления/изменения записи в таблице Reasons (причины проблем)
