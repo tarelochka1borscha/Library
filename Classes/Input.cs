@@ -102,7 +102,7 @@ namespace KnowledgeBaseLibrary.Classes
         /// <param name="problem">Проблема для восстановления</param>
         public static void RestoreProblem(Problem problem)
         {
-            if ((problem == null) || (DBContext.BaseConnecton.Problems.Find(problem) == null) || (DBContext.BaseConnecton.Deleteds.FirstOrDefault(x => x.ProblemId == problem.Id) == null)) return;
+            if ((problem == null) || (DBContext.BaseConnecton.Problems.FirstOrDefault(x=>x.Id == problem.Id) == null) || (DBContext.BaseConnecton.Deleteds.FirstOrDefault(x => x.ProblemId == problem.Id) == null)) return;
             Problem problem1 = DBContext.BaseConnecton.Problems.FirstOrDefault(x=>x.Id == problem.Id);
             problem1.ProblemStatus = Get.GetActualStatus().Id;
             Deleted problem_from_delete = DBContext.BaseConnecton.Deleteds.FirstOrDefault(x=>x.ProblemId == problem1.Id);
