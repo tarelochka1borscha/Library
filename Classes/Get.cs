@@ -1,6 +1,7 @@
 ﻿using KnowledgeBaseLibrary.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -104,6 +105,19 @@ namespace KnowledgeBaseLibrary.Classes
             }
             steps = steps.OrderBy(x=>x.Number).ToList();
             return steps;
+        }
+
+        /// <summary>
+        /// Метод для получения даты удаления проблемы
+        /// </summary>
+        /// <param name="problem">Проблема, дату удаления которой необходимо получить</param>
+        /// <returns>Дата удаления проблемы типа DateOnly</returns>
+        public static DateOnly GetDateOfDeletionByProblem(Problem problem)
+        {
+            if (problem == null) return DateOnly.MinValue;
+            Deleted deleted_problem = DBContext.BaseConnecton.Deleteds.FirstOrDefault(x=>x.ProblemId==problem.Id);
+            if (deleted_problem == null) return DateOnly.MinValue;
+            return deleted_problem.DateOfDeletion;
         }
 
         /// <summary>
