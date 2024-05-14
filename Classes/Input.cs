@@ -32,7 +32,11 @@ namespace KnowledgeBaseLibrary.Classes
         {
             if (problem == null) return; //проверка на пустое значение объекта
             if ((DBContext.BaseConnecton.Problems.FirstOrDefault(x => x.Title == problem.Title) != null) && (DBContext.BaseConnecton.Problems.FirstOrDefault(x => x.Id == problem.Id) == null)) return; //проверка на совпадение содержимого главного поля нового объекта с существующим объектом (защита от дубликата)
-            if (DBContext.BaseConnecton.Problems.FirstOrDefault(x => x.Id == problem.Id) == null) DBContext.BaseConnecton.Problems.Add(problem);
+            if (DBContext.BaseConnecton.Problems.FirstOrDefault(x => x.Id == problem.Id) == null)
+            {
+                problem.ProblemStatus = Get.GetActualStatus().Id;
+                DBContext.BaseConnecton.Problems.Add(problem);
+            }
             else
             {
                 Problem problem1 = DBContext.BaseConnecton.Problems.FirstOrDefault(x => x.Id == problem.Id);
