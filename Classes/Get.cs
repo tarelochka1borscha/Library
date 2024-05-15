@@ -32,7 +32,7 @@ namespace KnowledgeBaseLibrary.Classes
         /// <returns>Список типа Problem, содержащий актуальные записи таблицы Problems</returns>
         public static List<Problem> GetActualProblemsList()
         {
-            Guid id = DBContext.BaseConnecton.Statuses.FirstOrDefault(x=>x.Title == "Активен").Id;
+            Guid id = GetActualStatus().Id;
             return DBContext.BaseConnecton.Problems.Where(x=>x.ProblemStatus == id).ToList();
         }
 
@@ -54,7 +54,7 @@ namespace KnowledgeBaseLibrary.Classes
         /// <returns>Список типа Problem, содержащий записи таблицы Problems "на удалении"</returns>
         public static List<Problem> GetDeletedProblemsList()
         {
-            Guid id = DBContext.BaseConnecton.Statuses.FirstOrDefault(x => x.Title != "Активен").Id;
+            Guid id = GetForDeletionStatus().Id;
             return DBContext.BaseConnecton.Problems.Where(x => x.ProblemStatus == id).ToList();
         }
 

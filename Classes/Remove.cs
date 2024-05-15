@@ -40,6 +40,12 @@ namespace KnowledgeBaseLibrary.Classes
         public static void DeleteProblemRightAway(Problem problem)
         {
             if (problem == null) return;
+            Deleted deleted = DBContext.BaseConnecton.Deleteds.FirstOrDefault(x => x.ProblemId == problem.Id);
+            if (deleted != null)
+            {
+                DBContext.BaseConnecton.Deleteds.Remove(deleted);
+                DBContext.BaseConnecton.SaveChanges();
+            }
             DBContext.BaseConnecton.Problems.Remove(problem);
             DeleteSolutionsForProblem(problem);
             DBContext.BaseConnecton.SaveChanges();
