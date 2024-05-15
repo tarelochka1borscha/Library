@@ -46,8 +46,9 @@ namespace KnowledgeBaseLibrary.Classes
                 DBContext.BaseConnecton.Deleteds.Remove(deleted);
                 DBContext.BaseConnecton.SaveChanges();
             }
-            DeleteSolutionsForProblem(problem);
-            DBContext.BaseConnecton.Problems.Remove(problem);
+            Problem problem1 = DBContext.BaseConnecton.Problems.FirstOrDefault(x => x.Id == problem.Id);
+            DeleteSolutionsForProblem(problem1);
+            DBContext.BaseConnecton.Problems.Remove(problem1);
             DBContext.BaseConnecton.SaveChanges();
         }
 
